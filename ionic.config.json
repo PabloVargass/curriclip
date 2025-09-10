@@ -1,0 +1,7 @@
+{
+  "name": "curriclip",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

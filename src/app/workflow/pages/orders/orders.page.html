@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Lista de Órdenes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-searchbar [(ngModel)]="q" (ionInput)="apply()" placeholder="N° orden, cliente o empresa..."></ion-searchbar>
+
+  <ion-segment [(ngModel)]="status" (ionChange)="load()">
+    <ion-segment-button value="">Todos</ion-segment-button>
+    <ion-segment-button value="pending">Pendiente</ion-segment-button>
+    <ion-segment-button value="progress">En progreso</ion-segment-button>
+    <ion-segment-button value="done">Completada</ion-segment-button>
+  </ion-segment>
+
+  <ion-list>
+    <ion-item *ngFor="let o of filtered" (click)="go(o)">
+      <ion-label>
+        <h3>
+          {{ o.code }}
+          <ion-chip [color]="chipColor(o.status)">{{ label(o.status) }}</ion-chip>
+        </h3>
+        <p>Cliente: {{ o.client?.name || '-' }}</p>
+        <p>Creada: {{ o.created_at | date:'yyyy-MM-dd' }}</p>
+      </ion-label>
+      <ion-icon name="chevron-forward" slot="end"></ion-icon>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end">
+    <ion-fab-button [routerLink]="['/wf','new']">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
