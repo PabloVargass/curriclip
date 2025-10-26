@@ -4,9 +4,17 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { OrdersService } from '../../core/orders.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 type OrderStatus = 'pending' | 'progress' | 'done';
-interface Order { id:number; code:string; status:OrderStatus; created_at:string; client?:{name?:string}; company?:{name?:string}; }
+interface Order { 
+  id: number; 
+  code: string; 
+  status: OrderStatus; 
+  created_at: string; 
+  client?: { name?: string }; 
+  company?: { name?: string }; 
+}
 
 @Component({
   selector: 'app-orders',
@@ -15,15 +23,37 @@ interface Order { id:number; code:string; status:OrderStatus; created_at:string;
   templateUrl: './orders.page.html'
 })
 export class OrdersPage implements OnInit {
+  usuario: any = null;
   q = '';
   status: '' | OrderStatus = '';
   loading = false;
   data: Order[] = [];
   filtered: Order[] = [];
 
-  constructor(private api: OrdersService, private router: Router) {}
+  constructor(
+    private api: OrdersService, 
+    private router: Router,
+    private auth: AuthService
+  ) {}
 
-  ngOnInit() { this.load(); }
+  ngOnInit() {
+    // Recuperar usuario logueado desde sessionStorage
+    this.usuario = this.auth.obtenerUsuario();
+    console.log('Usuario logueado:', this.usuario);
+
+    // Si no hay sesión, redirigir al login
+    if (!this.usuario) {
+      this.auth.cerrarSesion();
+      return;
+    }
+
+    // Cargar órdenes
+    this.load();
+  }
+
+  logout() {
+    this.auth.cerrarSesion();
+  }
 
   load() {
     this.loading = true;

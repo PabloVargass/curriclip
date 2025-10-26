@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth-guard';
+import { AuthGuard } from './services/auth.guard';
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'pages/login', pathMatch: 'full' },
@@ -31,6 +32,18 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/messages/messages.module').then(m => m.MessagesPageModule),
   },
+
+   // 🔹 Nueva ruta: página de recuperación de contraseña
+{
+  path: 'pages/olvide',
+  loadComponent: () =>
+    import('src/app/pages/olvide/olvide.page').then(m => m.OlvidePage),
+},
+
+
+
+
+
 
   {
     path: 'wf',

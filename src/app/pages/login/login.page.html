@@ -6,18 +6,31 @@
 
 <ion-content class="ion-padding">
   <ion-item>
-    <ion-label position="stacked">Correo</ion-label>
-    <ion-input type="email" [(ngModel)]="email"></ion-input>
+    <ion-label position="floating">Correo</ion-label>
+    <ion-input [(ngModel)]="email" type="email"></ion-input>
   </ion-item>
 
-  <ion-item class="ion-margin-top">
-    <ion-label position="stacked">Contraseña</ion-label>
-    <ion-input type="password" [(ngModel)]="password"></ion-input>
+  <ion-item>
+    <ion-label position="floating">Contraseña</ion-label>
+    <ion-input [(ngModel)]="password" type="password"></ion-input>
   </ion-item>
 
-  <ion-button expand="block" class="ion-margin-top" [disabled]="loading" (click)="submit()">
-    {{ loading ? 'Entrando...' : 'Entrar' }}
+  <ion-button expand="block" (click)="submit()" [disabled]="loading">
+    {{ loading ? 'Ingresando...' : 'ENTRAR' }}
   </ion-button>
 
-  <p class="ion-text-center ion-margin-top ion-text-danger">{{ error }}</p>
+  <ion-text color="danger" *ngIf="error">
+    <p>{{ error }}</p>
+  </ion-text>
+
+  <!-- 🔽 Enlace para recuperar contraseña -->
+  <div class="forgot-password">
+    <ion-text color="medium">
+      <p>
+        ¿Olvidaste tu contraseña?
+        <ion-text color="primary" (click)="irARecuperar()">Restablecer</ion-text>
+      </p>
+    </ion-text>
+  </div>
+  
 </ion-content>
